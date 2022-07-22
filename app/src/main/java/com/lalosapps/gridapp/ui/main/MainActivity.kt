@@ -3,9 +3,11 @@ package com.lalosapps.gridapp.ui.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -39,16 +41,23 @@ fun MyApp() {
     GridAppTheme {
         // A surface container using the 'background' color from the theme
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(4.dp),
+            modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-            LazyColumn {
-                items(DataSource.topics) {
-                    TopicItem(topic = it)
-                }
-            }
+            TopicGrid(topics = DataSource.topics)
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TopicGrid(topics: List<Topic>) {
+    LazyVerticalGrid(
+        modifier = Modifier.padding(4.dp),
+        cells = GridCells.Fixed(2)
+    ) {
+        items(topics) { topic ->
+            TopicItem(topic)
         }
     }
 }
